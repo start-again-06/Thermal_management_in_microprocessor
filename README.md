@@ -28,21 +28,17 @@ Thermal diffusion coefficient: ε = 10⁻⁴ (low thermal mixing)
 
 where:
 
- = Temperature distribution
+u(x,y) = Temperature distribution
 
- = Thermal diffusion coefficient
+ε = Thermal diffusion coefficient
 
- = Forced cooling field
+(bx,by) = Forced cooling field
 
- = Heat generation function
-
-🔥 Heat Generation Function
-
-
+f(x,y) = Heat generation function
 
 🔲 Boundary Conditions (Dirichlet)
 
- for all 
+ u(x,y) = 0 for all (x,y)
 
 🛠️ Implementation Details
 

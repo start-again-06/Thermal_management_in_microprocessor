@@ -1,113 +1,110 @@
-🔥 ZenteiQ.ai SciML Challenge
+# ZenteiQ.ai SciML Challenge  
+## Solving Convection-Dominated Problems with Scientific Machine Learning
 
-🚀 Solve Convection-Dominated Problems with Scientific Machine Learning
+---
 
-🏆 The Challenge: Thermal Management in Microprocessors
+## Challenge Overview: Thermal Management in Microprocessors
+In high-performance computing systems, effective thermal management is critical to prevent overheating and ensure reliable operation. This challenge focuses on developing a **Physics-Informed Neural Network (PINN)** to predict temperature distribution across a processor die under forced cooling and localized heat generation.
 
-In high-performance computing, managing heat in next-generation microprocessors is crucial to prevent thermal damage and maintain optimal performance. Your task is to develop a Physics-Informed Neural Network (PINN) to predict and control temperature distribution across a processor die.
+---
 
-📌 Problem Statement
+## Problem Statement
+A 1 cm × 1 cm processor die is subject to forced convection and internal heat sources. The objective is to solve the **Convection–Diffusion (CD) equation** and accurately predict the temperature field across the domain.
 
-A 1cm × 1cm processor die is subject to forced cooling and localized heat generation. Your model must solve the Convection-Diffusion (CD) equation to predict temperature variations across this domain.
+---
 
-🔬 Geometry & Physical Conditions
+## Geometry and Physical Conditions
+- **Domain:** $$\([0,1] \times [0,1]\)$$ unit square  
+- **Forced Cooling Field:**
+  - $$\(b_y = 3\)$$ cm/s (primary fan, y-direction)
+  - $$\(b_x = 2\)$$ cm/s (auxiliary fan, x-direction)
+- **Thermal Diffusion Coefficient:**  
+  $$\(\varepsilon = 10^{-4}\)$$ (convection-dominated regime)
 
-Domain: [0,1] × [0,1] unit square (processor die)
+---
 
-Cooling field:
+## Governing Equation
+The temperature distribution $$\(u(x,y)\)$$ satisfies the convection–diffusion equation:
 
-Primary fan: by = 3 cm/s (y-direction)
-
-Auxiliary fan: bx = 2 cm/s (x-direction)
-
-Thermal diffusion coefficient: ε = 10⁻⁴ (low thermal mixing)
-
-🏗️ Convection-Diffusion Equation
-
-
+$$
+\[
+-\varepsilon \nabla^2 u + \mathbf{b} \cdot \nabla u = f(x,y)
+\]
+$$
 
 where:
+- $$\(u(x,y)\)$$ is the temperature field  
+- $$\(\varepsilon\)$$ is the diffusion coefficient  
+- $$\(\mathbf{b} = (b_x, b_y)\)$$ is the convection velocity  
+- $$\(f(x,y)\)$$ represents localized heat generation  
 
-u(x,y) = Temperature distribution
+---
 
-ε = Thermal diffusion coefficient
+## Boundary Conditions
+**Dirichlet Boundary Condition:**
 
-(bx,by) = Forced cooling field
+$$
+\[
+u(x,y) = 0 \quad \text{on all boundaries}
+\]
+$$
 
-f(x,y) = Heat generation function
+---
 
-🔲 Boundary Conditions (Dirichlet)
+## Implementation Details
 
- u(x,y) = 0 for all (x,y)
+### Model Architecture
+- Fully connected neural network  
+- Activation function: `tanh`  
+- Architecture:  
+  - Input layer: 2 neurons $$\((x,y)\)$$
+  - Hidden layer: 20 neurons  
+  - Output layer: 1 neuron $$\((u)\)$$
 
-🛠️ Implementation Details
+### Training Configuration
+- Optimizer: Adam  
+- Learning rate: $$\(1 \times 10^{-4}\)$$  
+- Epochs: 10,000  
 
-📌 Model Setup
+### Training Data
+- Interior collocation points: 8,000  
+- Boundary points: 800  
 
-Neural Network Architecture: Fully connected with tanh activation
+### Loss Function
+- PDE residual loss (physics consistency)  
+- Boundary condition loss  
 
-Layers: Input (2 neurons) → Hidden (20 neurons) → Output (1 neuron)
+---
 
-Optimizer: Adam (learning rate = 1e-4)
+## Dataset and Files
+- **Heat source distribution:** `test.csv`  
+- **Training framework:** TensorFlow with custom loss functions  
+- **Submission output:** `y_predict.csv`  
 
-Loss Function: Combination of PDE residual loss & boundary loss
+---
 
-Training Data:
+## Training Procedure
+1. Sample interior and boundary points in the domain.  
+2. Compute PDE residuals using automatic differentiation.  
+3. Enforce boundary conditions through penalty loss.  
+4. Train the PINN for 10,000 epochs.  
+5. Generate temperature predictions for submission.
 
-Interior points: 8000
+---
 
-Boundary points: 800
+## Evaluation Criteria
+Submissions are evaluated based on:
+- **Prediction Accuracy:** Error against reference temperature values
+- **Computational Efficiency:** Training time and resource usage
+- **Physical Consistency:** Adherence to the governing PDE
 
-📂 Code & Dataset
+---
 
-Dataset: Heat source distribution provided in test.csv
+## Contributing
+Fork the repository and submit a pull request for improvements, optimizations, or alternative modeling approaches.
 
-Training: Implemented in TensorFlow with custom loss functions
+---
 
-Submission: Generate predicted temperature values in y_predict.csv
+## License
+MIT License. Free to use, modify, and distribute for academic and research purposes.
 
-🚀 Training Procedure
-
-Generate random points for interior and boundary conditions.
-
-Define PINN loss as:
-
-PDE loss (ensuring physical consistency)
-
-Boundary loss (enforcing boundary conditions)
-
-Train the model for 10,000 epochs.
-
-Evaluate results and generate submission file.
-
-📢 How to Run
-
-🔧 Requirements
-
-Install dependencies using:
-
-[pip install tensorflow numpy pandas matplotlib](url)
-
-▶️ Run the Training Script
-
-[python train.py
-](url)
-📤 Generate Predictions
-[
-python generate_submission.py](url)
-
-🏅 Evaluation Criteria
-
-Your submission will be evaluated based on:
-
-Accuracy: Error between predicted and true temperature values.
-
-Computational Efficiency: Training time and resource utilization.
-
-Physical Consistency: Adherence to the governing PDE.
-
-🤝 Contribute
-
-Fork the repository and submit a pull request if you have improvements!
-
-🌟 Good luck, and may the best SciML engineer win! 🚀🔥
